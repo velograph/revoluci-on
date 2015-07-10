@@ -73,6 +73,41 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 	<meta itemprop="url" content="<?php the_permalink(); ?>" />
 
+	<?php $pagename = get_the_title( $post->ID ); ?>
+	<?php if( has_term( 'trip', 'product_cat' ) ) : ?>
+
+		<div class="itinerary">
+
+			<h2>Trip Itinerary</h2>
+
+				<?php
+
+				    $args = array(
+				        'pagename' => $pagename
+				    );
+				    $query = new WP_Query($args);
+
+				    if($query->have_posts()) : ?>
+
+				      <?php while($query->have_posts()) : ?>
+
+				        <?php $query->the_post(); ?>
+
+				        <div class="post-content">
+							<?php $t =& peTheme(); ?>
+							<?php $content =& $t->content; ?>
+							<?php $meta =& $content->meta(); ?>
+							<?php $content->builder(); ?>
+						</div>
+
+				      <?php endwhile; ?>
+
+				<?php endif; ?>
+
+		</div>
+
+	<?php endif; ?>
+
 </div><!-- #product-<?php the_ID(); ?> -->
 
 <?php do_action( 'woocommerce_after_single_product' ); ?>
